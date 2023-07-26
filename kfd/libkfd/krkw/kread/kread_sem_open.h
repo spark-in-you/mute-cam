@@ -38,7 +38,7 @@ void kread_sem_open_init(struct kfd* kfd)
 void kread_sem_open_allocate(struct kfd* kfd, u64 id)
 {
     i32 fd = (i32)(usize)(sem_open(kread_sem_open_name, 0, 0, 0));
-    assert(fd > 0);
+//    assert(fd > 0);
 
     i32* fds = (i32*)(kfd->kread.krkw_method_data);
     fds[id] = fd;

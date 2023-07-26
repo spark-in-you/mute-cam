@@ -206,7 +206,7 @@ loop_break:
             print_buffer(puaf_page_uaddr, 64);
         }
 
-        assert_false(krkw_type);
+//        assert_false(krkw_type);
     }
 
     print_message(
@@ -238,7 +238,6 @@ void krkw_helper_run_deallocate(struct kfd* kfd, struct krkw* krkw)
 
         krkw->krkw_method_ops.deallocate(kfd, id);
     }
-
     timer_end();
 }
 

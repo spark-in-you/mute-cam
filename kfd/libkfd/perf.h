@@ -75,6 +75,36 @@ const struct kernelcache_addresses kcs[] = {
         .vm_page_array_beginning_addr = 0xfffffff0078e6128,
         .vm_page_array_ending_addr = 0xfffffff00a456988,
         .vm_first_phys_ppnum = 0xfffffff00a456990,
+    },
+    // From the iOS 16.6b1 kernelcache for the iPhone 14 Pro.
+    {
+//        .kernel_base = 0xfffffff007004000,
+//        .cdevsw = 0xfffffff00a4c9a30,
+//        .gPhysBase = 0xfffffff00794c1b8,
+//        .gPhysSize = 0xfffffff00794c1b8 + 8,
+//        .gVirtBase = 0xfffffff00794a370,
+//        .perfmon_devices = 0xfffffff00a509530,
+//        .perfmon_dev_open = 0xfffffff007f116dc,
+//        .ptov_table = 0xfffffff0078ff9b8,
+//        .vm_first_phys_ppnum = 0xfffffff00a508910,
+//        .vm_pages = 0xfffffff0078fc108,
+//        .vm_page_array_beginning_addr = 0xfffffff0078fe968,
+//        .vm_page_array_ending_addr = 0xfffffff00a508908,
+//        .vn_kqfilter = 0xfffffff007f5dbf8,
+
+                .kernel_base = 0xfffffff007004000,
+                .vn_kqfilter = 0xfffffff007f39c18,
+                .ptov_table = 0xfffffff0078e7178,
+                .gVirtBase = 0xfffffff007932288,
+                .gPhysBase = 0xfffffff0079340b0,
+                .gPhysSize = 0xfffffff0079340b8,
+                .perfmon_devices = 0xfffffff00a457500,
+                .perfmon_dev_open = 0xfffffff007eed0b0,
+                .cdevsw = 0xfffffff00a419208,
+                .vm_pages = 0xfffffff0078e3eb8,
+                .vm_page_array_beginning_addr = 0xfffffff0078e6128,
+                .vm_page_array_ending_addr = 0xfffffff00a456988,
+                .vm_first_phys_ppnum = 0xfffffff00a456990,
     }
 };
 
@@ -141,12 +171,21 @@ void perf_init(struct kfd* kfd)
     print_string(hw_model);
 
     const char iphone_14_pro_max[] = "D74AP";
+    const char iphone_14_pro[] = "D73AP";
+    
     if (memcmp(hw_model, iphone_14_pro_max, sizeof(iphone_14_pro_max))) {
-        kfd->perf.kernelcache_index = 0;
-        return;
+        if(memcmp(hw_model, iphone_14_pro, sizeof(iphone_14_pro))) {
+            kfd->perf.kernelcache_index = 0;
+            return;
+        }
     }
 
     switch (*(u64*)(&kfd->info.env.osversion)) {
+        case ios_16_1_2: {
+            printf("kfd->perf.kernelcache_index = 4\n");
+            kfd->perf.kernelcache_index = 4;
+            break;
+        }
         case ios_16_4: {
             kfd->perf.kernelcache_index = 1;
             break;
@@ -179,6 +218,7 @@ void perf_init(struct kfd* kfd)
 void perf_run(struct kfd* kfd)
 {
     if (!kfd->perf.kernelcache_index) {
+        printf("!kfd->perf.kernelcache_index\n");
         return;
     }
 

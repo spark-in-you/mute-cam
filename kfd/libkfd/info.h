@@ -177,7 +177,7 @@ void info_init(struct kfd* kfd)
     assert_bsd(setrlimit(RLIMIT_NOFILE, &rlim));
 
     usize size2 = sizeof(kfd->info.env.osversion);
-    assert_bsd(sysctlbyname("kern.osversion", &kfd->info.env.osversion, &size2, NULL, 0));
+//    assert_bsd(sysctlbyname("kern.osversion", &kfd->info.env.osversion, &size2, NULL, 0));
 
     switch (*(u64*)(&kfd->info.env.osversion)) {
         case ios_16_3:
@@ -203,8 +203,15 @@ void info_init(struct kfd* kfd)
             kfd->info.env.ios = false;
             break;
         }
+        case ios_16_1_2: {
+            kfd->info.env.vid = 4;
+            kfd->info.env.ios = true;
+            break;
+        }
         default: {
-            assert_false("unsupported osversion");
+            kfd->info.env.vid = 4;
+            kfd->info.env.ios = true;
+            break;
         }
     }
 
@@ -227,13 +234,16 @@ void info_run(struct kfd* kfd)
     kfd->info.kaddr.current_task = kfd->info.kaddr.current_proc + dynamic_sizeof(proc);
     print_x64(kfd->info.kaddr.current_proc);
     print_x64(kfd->info.kaddr.current_task);
+    print("this will crash oopsy");
 
     /*
      * current_map()
      */
+    print("dynamic_kget");
     u64 signed_map_kaddr = dynamic_kget(task, map, kfd->info.kaddr.current_task);
-    kfd->info.kaddr.current_map = unsign_kaddr(signed_map_kaddr);
     print_x64(kfd->info.kaddr.current_map);
+//    kfd->info.kaddr.current_map = unsign_kaddr(signed_map_kaddr);
+//    print_x64(kfd->info.kaddr.current_map);
 
     /*
      * current_pmap()

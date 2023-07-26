@@ -13,6 +13,7 @@
 #define CONFIG_TIMER 1
 
 #include "libkfd/common.h"
+#include "fun.h"
 
 /*
  * The public API of libkfd.
@@ -168,6 +169,16 @@ void kfd_free(struct kfd* kfd)
     bzero_free(kfd, sizeof(struct kfd));
 }
 
+void kread(u64 kfd, u64 kaddr, void* uaddr, u64 size)
+{
+    krkw_kread((struct kfd*)(kfd), kaddr, uaddr, size);
+}
+
+void kwrite(u64 kfd, void* uaddr, u64 kaddr, u64 size)
+{
+    krkw_kwrite((struct kfd*)(kfd), uaddr, kaddr, size);
+}
+
 u64 kopen(u64 puaf_pages, u64 puaf_method, u64 kread_method, u64 kwrite_method)
 {
     timer_start();
@@ -185,20 +196,11 @@ u64 kopen(u64 puaf_pages, u64 puaf_method, u64 kread_method, u64 kwrite_method)
     krkw_run(kfd);
     info_run(kfd);
     perf_run(kfd);
+    
     puaf_cleanup(kfd);
 
     timer_end();
     return (u64)(kfd);
-}
-
-void kread(u64 kfd, u64 kaddr, void* uaddr, u64 size)
-{
-    krkw_kread((struct kfd*)(kfd), kaddr, uaddr, size);
-}
-
-void kwrite(u64 kfd, void* uaddr, u64 kaddr, u64 size)
-{
-    krkw_kwrite((struct kfd*)(kfd), uaddr, kaddr, size);
 }
 
 void kclose(u64 kfd)
