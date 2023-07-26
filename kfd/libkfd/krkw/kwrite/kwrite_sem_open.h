@@ -66,7 +66,7 @@ void kwrite_sem_open_deallocate(struct kfd* kfd, u64 id)
      */
     if (id != kfd->kread.krkw_object_id) {
         i32* fds = (i32*)(kfd->kwrite.krkw_method_data);
-//        assert_bsd(close(fds[id]));
+        assert_bsd(close(fds[id]));
     }
 }
 
