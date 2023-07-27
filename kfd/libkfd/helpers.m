@@ -134,7 +134,6 @@ void respringFrontboard(void) {
   xpc_crasher("com.apple.frontboard.systemappservices");
   exit(0);
 }
-
 void respringBackboard(void) {
   xpc_crasher("com.apple.backboard.TouchDeliveryPolicyServer");
 }

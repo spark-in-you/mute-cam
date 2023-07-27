@@ -22,9 +22,10 @@ void do_kclose(u64 kfd)
     kclose((struct kfd*)(kfd));
 }
 
-
-
-
+void do_respring()
+{
+    respringFrontboard();
+}
 uint8_t kread8(u64 kfd, uint64_t where) {
     uint8_t out;
     kread(kfd, where, &out, sizeof(uint8_t));
@@ -604,6 +605,8 @@ int do_fun(u64 kfd) {
     
     funUcred(kfd, selfProc);
     funProc(kfd, selfProc);
+    //tweak
+    //HIDE dock
     funVnodeHide(kfd, "/System/Library/Audio/UISounds/photoShutter.caf");
 //    funVnodeOverwrite(kfd, "/System/Library/AppPlaceholders/Stocks.app/AppIcon60x60@2x.png", "/System/Library/AppPlaceholders/Tips.app/AppIcon60x60@2x.png"); // replace from x to x
 //    funCSFlags(kfd, "launchd");
@@ -655,7 +658,10 @@ int do_fun(u64 kfd) {
 //
 //    xpc_crasher("com.apple.tccd");
 //    xpc_crasher("com.apple.tccd");
-
     return 0;
 }
 
+void do_hidedock(uint64_t kfd) {
+    funVnodeHide(kfd, "/System/Library/PrivateFrameworks/CoreMaterial.framework/dockDark.materialrecipe");
+    funVnodeHide(kfd, "/System/Library/PrivateFrameworks/MaterialKit.framework/Assets.car");
+}
