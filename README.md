@@ -1,6 +1,7 @@
 # kfd
 
 # kfd fork
+# kfd fork fork
 This kfd fork merges the kern-info branch of the original kfd project together with white4ever's fork of kfd which implements vnodebypass [here](https://github.com/wh1te4ever/kfd). Do note that offsets for this in dynamic_info.h are only for iOS 16.6 beta 1, iPhone 14 Pro.
 
 Issues: getProcByName panics the device (presumably due to an offset error)
@@ -53,7 +54,7 @@ void kclose(u64 kfd);
 
 
 ---
-#kfd fork fork
+
 ## What are the supported OS versions and devices?
 
 @Only 14P ios 16.6 beta1. I'll add more later.
