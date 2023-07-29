@@ -51,28 +51,12 @@ void kclose(u64 kfd);
 - `kread_method`: The method used to obtain the initial `kread()` primitive.
 - `kwrite_method`: The method used to obtain the initial `kwrite()` primitive.
 
-If the exploit is successful, `kopen()` returns a 64-bit opaque file descriptor. In practice, this
-is just a user space pointer to a structure needed by libkfd. However, since that structure should
-not be accessed outside of the library, it is returned as an opaque integer. If the exploit is
-unsuccessful, the library will print an error message, sleep for 30 seconds, then exit with a status
-code of 1. It sleeps for 30 seconds because the kernel might panic on exit for certain PUAF methods
-that require some cleanup post-KRKW (e.g. `puaf_smith`).
-
-`kread()` and `kwrite()` are the user space equivalent of `copyout()` and `copyin()`, respectively.
-Please note that the options for `kread_method` and `kwrite_method` are described in a separate
-[write-up](writeups/exploiting-puafs.md). In addition, the initial primitives granted by those
-methods can be used to bootstrap a better KRKW primitive. Finally, `kclose()` simply closes the
-kernel file descriptor. They all take the opaque integer returned by `kopen()` as their first
-argument.
-
-[1]: https://support.apple.com/en-us/HT213676
-[2]: https://support.apple.com/en-us/HT213814
 
 ---
-
+##kfd fork fork
 ## What are the supported OS versions and devices?
 
-@todo: update this!
+@Only 14P ios 16.6 beta1. I'll add more later.
 
 ---
 
@@ -82,20 +66,6 @@ In Xcode, open the root folder of the project and connect your iOS device.
 
 - To build the project, select Product > Build (⌘B).
 - To run the project, select Product > Run (⌘R), then click on the "kopen" button in the app.
-
----
-
-## How to build and run kfd on a Mac?
-
-In a terminal, navigate to the root folder of the project.
-
-Optionally, to increase the global and per-process file descriptor limits, which will improve the
-success rate especially on multiple consecutive runs, enter the command `make s` and type in the
-sudo password.
-
-- To build the project, enter the command `make b`.
-- To run the project, enter the command `make r`.
-- To build and run the project at once, enter the command `make br`.
 
 ---
 
