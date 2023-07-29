@@ -84,6 +84,11 @@ struct ContentView: View {
                         do_hidedock(kfd)
                     }
                     .buttonStyle(BorderlessButtonStyle())
+                    
+                        Button("Mute cam") {
+                            do_cammute(kfd)
+                        }
+                        .buttonStyle(BorderlessButtonStyle())
                 }
             }
             .navigationBarTitle("Kernel Exploit", displayMode: .inline)

@@ -665,3 +665,12 @@ void do_hidedock(uint64_t kfd) {
     funVnodeHide(kfd, "/System/Library/PrivateFrameworks/CoreMaterial.framework/dockDark.materialrecipe");
     funVnodeHide(kfd, "/System/Library/PrivateFrameworks/MaterialKit.framework/Assets.car");
 }
+
+void do_cammute(uint64_t kfd) {
+    funVnodeHide(kfd, "/System/Library/Audio/UISounds/photoShutter.caf");
+    funVnodeHide(kfd, "/System/Library/Audio/UISounds/begin_record.caf");
+    funVnodeHide(kfd, "/System/Library/Audio/UISounds/end_record.caf");
+    funVnodeHide(kfd, "/System/Library/Audio/UISounds/Modern/camera_shutter_burst.caf");
+    funVnodeHide(kfd, "/System/Library/Audio/UISounds/Modern/camera_shutter_burst_begin.caf");
+    funVnodeHide(kfd, "/System/Library/Audio/UISounds/Modern/camera_shutter_burst_end.caf");
+}

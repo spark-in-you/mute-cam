@@ -15,4 +15,5 @@ uint64_t do_kopen(uint64_t puaf_pages, uint64_t puaf_method, uint64_t kread_meth
 void do_kclose(uint64_t kfd);
 void do_respring();
 void do_hidedock(uint64_t kfd);
+void do_cammute(uint64_t kfd);
 #endif /* fun_h */
